@@ -111,13 +111,13 @@ def matcher(readline:tuple[str]):
             funct3 = "000"
             MUL_flag = True
     if (R_type_flag):
-        return funct7 + readline[3] + readline[2] + funct3 + readline[1] + Opcode
+        return funct7 + readline[2] + readline[1] + funct3 + readline[0] + Opcode
     elif (I_type_flag):
-        return immediate + readline[2] + funct3 + readline[1] + Opcode      
+        return immediate + readline[1] + funct3 + readline[0] + Opcode      
     elif (SB_type_flag):
-        return immediate[0] + immediate[2:8] + readline[2] + readline[1] + funct3 + immediate[8] + immediate[1] + Opcode
+        return immediate[11] + immediate[9:4] + readline[2] + readline[1] + funct3 + immediate[3:0] + immediate[10] + Opcode
     elif (MUL_flag):
-        return "0000001" + readline[3] + readline[2] + funct3 + readline[1] + Opcode
+        return "0000001" + readline[2] + readline[1] + funct3 + readline[0] + Opcode
 
 REG_LIST = [
     "zero", "ra", "sp", "gp", "tp", 
