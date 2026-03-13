@@ -1,8 +1,11 @@
 # Authored by Sanithu Heengama and William Stone
+# We collaborated on this project by coming up with the design together and splitting
+# up the implementation fairly. Specifically, William implemented the parsing-side functionality (parse_line)
+# while Sanithu implemented the translation-side functionality (matcher)
 
 from enum import StrEnum
 
-ASSEMBLY_FILE = "assembly.s"
+ASSEMBLY_FILE = "assembly.s" # CHANGE TO TEST DIFFERENT FILES
 MACHINE_CODE_FILE = "machine_code.b"
 
 class operation(StrEnum):
