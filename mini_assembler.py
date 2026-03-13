@@ -70,40 +70,40 @@ def matcher(readline:tuple[str]):
         case operation.ADDI:
             Opcode = "0010011"
             funct3 = "000"
-            immediate = readline[2][1:] #drop first bit
+            immediate = readline[3][1:] #drop first bit
             I_type_flag = True
         case operation.SLLI:
             Opcode = "0010011"
             funct3 = "001"
             funct7 = "000000"
-            immediate = readline[2][1:] #drop first bit
+            immediate = readline[3][1:] #drop first bit
             I_type_flag = True
         case operation.SRLI:
             Opcode = "0010011"
             funct3 = "101"
             funct7 = "000000"
-            immediate = readline[2][1:] #drop first bit
+            immediate = readline[3][1:] #drop first bit
             I_type_flag = True
         case operation.ORI:
             Opcode = "0010011"
             funct3 = "110"
-            immediate = readline[2][1:] #drop first bit
+            immediate = readline[3][1:] #drop first bit
             I_type_flag = True
         case operation.ANDI:
             Opcode = "0010011"
             funct3 = "111"
-            immediate = readline[2][1:] #drop first bit
+            immediate = readline[3][1:] #drop first bit
             I_type_flag = True
 
         case operation.BEQ:
             Opcode = "1100011"
             funct3 = "000"
-            immediate = readline[2][:-1] #drop last bit
+            immediate = readline[3][::-1] #reverse
             SB_type_flag = True
         case operation.BNE:
             Opcode = "1100011"
             funct3 = "001"
-            immediate = readline[2][:-1] #drop last bit
+            immediate = readline[3][::-1] #reverse
             SB_type_flag = True
 
         case operation.MUL:
@@ -111,13 +111,13 @@ def matcher(readline:tuple[str]):
             funct3 = "000"
             MUL_flag = True
     if (R_type_flag):
-        return funct7 + readline[2] + readline[1] + funct3 + readline[0] + Opcode
+        return funct7 + readline[3] + readline[2] + funct3 + readline[1] + Opcode
     elif (I_type_flag):
-        return immediate + readline[1] + funct3 + readline[0] + Opcode      
+        return immediate + readline[2] + funct3 + readline[1] + Opcode      
     elif (SB_type_flag):
-        return immediate[11] + immediate[9:4] + readline[2] + readline[1] + funct3 + immediate[3:0] + immediate[10] + Opcode
+        return immediate[12] + immediate[5:11][::-1] + readline[2] + readline[1] + funct3 + immediate[1:5][::-1] + immediate[11] + Opcode
     elif (MUL_flag):
-        return "0000001" + readline[2] + readline[1] + funct3 + readline[0] + Opcode
+        return "0000001" + readline[3] + readline[2] + funct3 + readline[1] + Opcode
 
 REG_LIST = [
     "zero", "ra", "sp", "gp", "tp", 
@@ -168,6 +168,7 @@ if __name__ == "__main__":
             parsed_tuple = parse_line(line.strip())
             machine_code_line = matcher(parsed_tuple)
             hex_machine_code_line = hex(int(machine_code_line, 2))[2:]
-            new_script.append(machine_code_line)
+            hex_machine_code_line = "0"*(8-len(hex_machine_code_line)) + hex_machine_code_line
+            new_script.append(hex_machine_code_line)
     with open(MACHINE_CODE_FILE, 'w') as mc_file:
         mc_file.write('\n'.join(new_script))
