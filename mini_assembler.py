@@ -1,3 +1,5 @@
+# Authored by Sanithu Heengama and William Stone
+
 from enum import StrEnum
 
 ASSEMBLY_FILE = "assembly.s"
@@ -16,19 +18,6 @@ class operation(StrEnum):
     MUL = "mul"
     BEQ = "beq"
     BNE = "bne"
-    
-
-# match readline[0]:
-#     case operation.ADD | operation.SLL | operation.SRL : 
-#         # in R
-#         Opcode = "0110011"
-#         funct7 = "0000000"
-#         match readline[0]:
-#             case operation.ADD:
-#                 funct3 = "000"
-#             case operation.SLL:
-#         combine
-
 
 def matcher(readline:tuple[str]):
     Opcode = ""
@@ -39,7 +28,6 @@ def matcher(readline:tuple[str]):
     I_type_flag = False
     SB_type_flag = False
     MUL_flag = False
-    # global Opcode, funct3, funct7, immediate
     match readline[0]:
     #R-type
         case operation.ADD: 
@@ -142,7 +130,7 @@ def component_parse(comp: str) -> str:
         return binify(int(idx), 5)
     elif comp[0] == 'x' and comp[1:].isnumeric() and int(comp[1:]) >= 0 and int(comp[1:]) <= 31: # it's of the x<num> form
         return binify(int(comp[1:]), 5)
-    elif comp.isnumeric() or comp.lstrip('-').isnumeric():
+    elif comp.isnumeric() or comp.lstrip('-').isnumeric(): # it's an immediate
         return binify(int(comp), 13)
     else:
         raise Exception(f"Unrecognized instruction component: {comp}")
