@@ -142,7 +142,7 @@ def binify(to_bin: int, num_length: int):
     naive_bin = bin(to_bin)
     if naive_bin[0] == '-':
         stripped = naive_bin[3:]
-        return format((-1*int(stripped, 2)) & ((1 << num_length) - 1), f'0{num_length}b') # CREDIT: travc - https://stackoverflow.com/questions/1604464/twos-complement-in-python
+        return format((-1*int(stripped, 2)) & ((1 << num_length) - 1), f'0{num_length}b') # CREDIT: inspired by solution posted by travc - https://stackoverflow.com/questions/1604464/twos-complement-in-python
     else:
         stripped = naive_bin[2:]
         return "0"*(num_length - len(stripped)) + stripped
